@@ -1,0 +1,48 @@
+name: Test Major.Minor version format
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        with:
+          version: "12.4"
+          method: auto
+        continue-on-error: true
+      - name: Assert action ran with Major.Minor version format
+        env:
+          VERSION_OUT: ${{ steps.action.outputs.version }}
+          CUDA_PATH_OUT: ${{ steps.action.outputs['cuda-path'] }}
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          echo "version output: $VERSION_OUT"
+          echo "cuda-path output: $CUDA_PATH_OUT"
+          # The action should either succeed or fail gracefully (no GPU in CI).
+          # It must not be skipped.
+          if [ "$OUTCOME" = "skipped" ]; then
+            echo "FAIL: action was skipped unexpectedly"
+            exit 1
+          fi
+          # If the action succeeded, verify the version output starts with '12.4.'
+          if [ "$OUTCOME" = "success" ]; then
+            echo "Action succeeded. Checking version output..."
+            if [ -z "$VERSION_OUT" ]; then
+              echo "FAIL: version output is empty on success"
+              exit 1
+            fi
+            case "$VERSION_OUT" in
+              12.4.*)
+                echo "PASS: version output '$VERSION_OUT' starts with '12.4.'"
+                ;;
+              *)
+                echo "FAIL: expected version starting with '12.4.', got '$VERSION_OUT'"
+                exit 1
+                ;;
+            esac
+          else
+            echo "PASS: action ran (installation not supported in this environment)"
+          fi

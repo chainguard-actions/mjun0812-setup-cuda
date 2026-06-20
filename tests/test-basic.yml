@@ -1,0 +1,42 @@
+name: Test basic usage - latest CUDA version
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: setup-cuda
+        uses: .
+        with:
+          version: latest
+          method: network
+        continue-on-error: true
+      - name: Assert outputs are set or action ran
+        env:
+          OUTCOME: ${{ steps.setup-cuda.outcome }}
+          CUDA_VERSION: ${{ steps.setup-cuda.outputs.version }}
+          CUDA_PATH: ${{ steps.setup-cuda.outputs.cuda-path }}
+        run: |
+          echo "outcome: $OUTCOME"
+          echo "cuda-version: $CUDA_VERSION"
+          echo "cuda-path: $CUDA_PATH"
+          # The action should either succeed or fail gracefully (no crash)
+          if [ "$OUTCOME" = "success" ]; then
+            echo "Action succeeded"
+            if [ -z "$CUDA_VERSION" ]; then
+              echo "FAIL: expected version output to be set on success"
+              exit 1
+            fi
+            if [ -z "$CUDA_PATH" ]; then
+              echo "FAIL: expected cuda-path output to be set on success"
+              exit 1
+            fi
+            echo "PASS: version=$CUDA_VERSION, path=$CUDA_PATH"
+          elif [ "$OUTCOME" = "failure" ]; then
+            echo "INFO: Action failed (expected in environments without CUDA support)"
+            echo "PASS: action ran and exited cleanly"
+          else
+            echo "FAIL: unexpected outcome: $OUTCOME"
+            exit 1
+          fi

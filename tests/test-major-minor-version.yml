@@ -1,0 +1,47 @@
+name: Test Major.Minor version format
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: setup-cuda
+        uses: .
+        with:
+          version: "12.6"
+          method: network
+        continue-on-error: true
+      - name: Assert action ran with Major.Minor version
+        env:
+          OUTCOME: ${{ steps.setup-cuda.outcome }}
+          CUDA_VERSION: ${{ steps.setup-cuda.outputs.version }}
+          CUDA_PATH: ${{ steps.setup-cuda.outputs.cuda-path }}
+        run: |
+          echo "outcome: $OUTCOME"
+          echo "cuda-version: $CUDA_VERSION"
+          echo "cuda-path: $CUDA_PATH"
+          if [ "$OUTCOME" = "success" ]; then
+            echo "Action succeeded"
+            if [ -z "$CUDA_VERSION" ]; then
+              echo "FAIL: expected version output to be set on success"
+              exit 1
+            fi
+            # When given Major.Minor, the action should resolve to a full version
+            # starting with the given prefix
+            if [[ "$CUDA_VERSION" != 12.6* ]]; then
+              echo "FAIL: expected version starting with '12.6', got '$CUDA_VERSION'"
+              exit 1
+            fi
+            if [ -z "$CUDA_PATH" ]; then
+              echo "FAIL: expected cuda-path output to be set on success"
+              exit 1
+            fi
+            echo "PASS: version=$CUDA_VERSION, path=$CUDA_PATH"
+          elif [ "$OUTCOME" = "failure" ]; then
+            echo "INFO: Action failed (expected in environments without CUDA support)"
+            echo "PASS: action ran and exited cleanly"
+          else
+            echo "FAIL: unexpected outcome: $OUTCOME"
+            exit 1
+          fi

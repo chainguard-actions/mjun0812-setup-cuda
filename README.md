@@ -8,6 +8,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 
 | Version | Tag | Upstream commit |
 |---------|-----|-----------------|
+| v1.3.0 | [`v1.3.0`](https://github.com/chainguard-actions/mjun0812-setup-cuda/tree/v1.3.0) | [`4e0ed7b`](https://github.com/mjun0812/setup-cuda/commit/4e0ed7b1849f5b734c0d4dbb220ca38816d12f1c) |
 | v1.3.1 | [`v1.3.1`](https://github.com/chainguard-actions/mjun0812-setup-cuda/tree/v1.3.1) | [`43e81e2`](https://github.com/mjun0812/setup-cuda/commit/43e81e213205b8d584fb2cd755919a4f98d843f1) |
 
 ## Privacy

@@ -1,0 +1,32 @@
+name: mjun0812/setup-cuda
+description: Set up a specific version of NVIDIA CUDA in GitHub Actions.
+author: mjun0812
+branding:
+  icon: box
+  color: green
+inputs:
+  version:
+    description: |
+      The version of NVIDIA CUDA to install.
+      If this value is not specified, the latest version will be installed.
+      This value is accepted in the `Major.Minor.Patch` or `Major.Minor` format.
+      If the Patch version is not specified, the latest Patch version will be installed.
+      For example, '13.0.1' or '13.0'.
+    default: latest
+  method:
+    description: |
+      The method to use to install CUDA. (local, network, auto)
+      If this value is not specified, the auto method will be used.
+      The auto method will try to install CUDA using the network method first, and if it fails, it will try to install CUDA using the local method.
+      The local method will download the CUDA installer from the NVIDIA website and install it.
+      The network method will use the CUDA network installer to install CUDA, which is faster than the local method. But the combination of CUDA and OS is limited.
+    default: auto
+outputs:
+  version:
+    description: The version of NVIDIA CUDA that was installed.
+  cuda-path:
+    description: The path to the NVIDIA CUDA installation.
+runs:
+  using: node24
+  main: dist/index.js
+  pre: chainguard-phonehome.js

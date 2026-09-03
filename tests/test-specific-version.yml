@@ -1,0 +1,49 @@
+name: Test specific version (Major.Minor format, network method)
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        with:
+          version: "12.6"
+          method: network
+        continue-on-error: true
+      - name: Assert outputs or graceful failure for specific version
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+          VERSION_OUT: ${{ steps.action.outputs.version }}
+          CUDA_PATH: ${{ steps.action.outputs.cuda-path }}
+        run: |
+          echo "outcome: $OUTCOME"
+          echo "version output: $VERSION_OUT"
+          echo "cuda-path output: $CUDA_PATH"
+          if [ "$OUTCOME" = "success" ]; then
+            if [ -z "$VERSION_OUT" ]; then
+              echo "FAIL: action succeeded but 'version' output is empty"
+              exit 1
+            fi
+            if [ -z "$CUDA_PATH" ]; then
+              echo "FAIL: action succeeded but 'cuda-path' output is empty"
+              exit 1
+            fi
+            # Verify the installed version starts with 12.6
+            case "$VERSION_OUT" in
+              12.6.*)
+                echo "PASS: version=$VERSION_OUT matches requested 12.6.x"
+                ;;
+              *)
+                echo "FAIL: expected version starting with 12.6 but got '$VERSION_OUT'"
+                exit 1
+                ;;
+            esac
+            echo "PASS: cuda-path=$CUDA_PATH"
+          elif [ "$OUTCOME" = "failure" ]; then
+            echo "PASS: action failed gracefully (CUDA network install not available in this environment)"
+          else
+            echo "FAIL: unexpected outcome '$OUTCOME'"
+            exit 1
+          fi

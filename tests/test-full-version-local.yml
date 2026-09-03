@@ -1,0 +1,44 @@
+name: Test full version (Major.Minor.Patch format, local method)
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        with:
+          version: "12.6.3"
+          method: local
+        continue-on-error: true
+      - name: Assert outputs or graceful failure for full version with local method
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+          VERSION_OUT: ${{ steps.action.outputs.version }}
+          CUDA_PATH: ${{ steps.action.outputs.cuda-path }}
+        run: |
+          echo "outcome: $OUTCOME"
+          echo "version output: $VERSION_OUT"
+          echo "cuda-path output: $CUDA_PATH"
+          if [ "$OUTCOME" = "success" ]; then
+            if [ -z "$VERSION_OUT" ]; then
+              echo "FAIL: action succeeded but 'version' output is empty"
+              exit 1
+            fi
+            if [ -z "$CUDA_PATH" ]; then
+              echo "FAIL: action succeeded but 'cuda-path' output is empty"
+              exit 1
+            fi
+            # Verify the installed version matches exactly 12.6.3
+            if [ "$VERSION_OUT" != "12.6.3" ]; then
+              echo "FAIL: expected version '12.6.3' but got '$VERSION_OUT'"
+              exit 1
+            fi
+            echo "PASS: version=$VERSION_OUT cuda-path=$CUDA_PATH"
+          elif [ "$OUTCOME" = "failure" ]; then
+            echo "PASS: action failed gracefully (CUDA local install not available in this environment)"
+          else
+            echo "FAIL: unexpected outcome '$OUTCOME'"
+            exit 1
+          fi

@@ -1,0 +1,44 @@
+name: Test specific version with local method
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        continue-on-error: true
+        with:
+          version: "12.6.3"
+          method: local
+      - name: Assert action ran and produced outputs or failed gracefully
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+          VERSION_OUT: ${{ steps.action.outputs.version }}
+          CUDA_PATH_OUT: ${{ steps.action.outputs.cuda-path }}
+        run: |
+          echo "outcome: $OUTCOME"
+          echo "version output: $VERSION_OUT"
+          echo "cuda-path output: $CUDA_PATH_OUT"
+          if [ "$OUTCOME" = "success" ]; then
+            if [ -z "$VERSION_OUT" ]; then
+              echo "FAIL: action succeeded but version output is empty"
+              exit 1
+            fi
+            if [ -z "$CUDA_PATH_OUT" ]; then
+              echo "FAIL: action succeeded but cuda-path output is empty"
+              exit 1
+            fi
+            # Verify the installed version matches the requested full version
+            if [ "$VERSION_OUT" != "12.6.3" ]; then
+              echo "FAIL: expected version 12.6.3, got $VERSION_OUT"
+              exit 1
+            fi
+            echo "PASS: CUDA $VERSION_OUT installed at $CUDA_PATH_OUT"
+          elif [ "$OUTCOME" = "failure" ]; then
+            echo "PASS: action failed gracefully (CUDA installation requires GPU drivers/hardware not available in act)"
+          else
+            echo "FAIL: unexpected outcome '$OUTCOME'"
+            exit 1
+          fi

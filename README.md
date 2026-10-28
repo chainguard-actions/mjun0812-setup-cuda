@@ -6,16 +6,16 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 
 ## Versions
 
-| Version | Tag | Upstream commit |
-|---------|-----|-----------------|
-| v1 | [`v1`](https://github.com/chainguard-actions/mjun0812-setup-cuda/tree/v1) | [`e4d1e9e`](https://github.com/mjun0812/setup-cuda/commit/e4d1e9e5c1d5170845a413aca7fac330ea5efe6e) |
-| v1.2.0 | [`v1.2.0`](https://github.com/chainguard-actions/mjun0812-setup-cuda/tree/v1.2.0) | [`614b359`](https://github.com/mjun0812/setup-cuda/commit/614b359605ed0403cbdf6cd8ef1b4294fa4db3e5) |
-| v1.3.0 | [`v1.3.0`](https://github.com/chainguard-actions/mjun0812-setup-cuda/tree/v1.3.0) | [`4e0ed7b`](https://github.com/mjun0812/setup-cuda/commit/4e0ed7b1849f5b734c0d4dbb220ca38816d12f1c) |
-| v1.3.1 | [`v1.3.1`](https://github.com/chainguard-actions/mjun0812-setup-cuda/tree/v1.3.1) | [`43e81e2`](https://github.com/mjun0812/setup-cuda/commit/43e81e213205b8d584fb2cd755919a4f98d843f1) |
-| v1.5.0 | [`v1.5.0`](https://github.com/chainguard-actions/mjun0812-setup-cuda/tree/v1.5.0) | [`bcecc09`](https://github.com/mjun0812/setup-cuda/commit/bcecc0913dc6c77755efaad3231a9bb5d72bf62e) |
-| v1.6.0 | [`v1.6.0`](https://github.com/chainguard-actions/mjun0812-setup-cuda/tree/v1.6.0) | [`e4d1e9e`](https://github.com/mjun0812/setup-cuda/commit/e4d1e9e5c1d5170845a413aca7fac330ea5efe6e) |
-| v1.6.1 | [`v1.6.1`](https://github.com/chainguard-actions/mjun0812-setup-cuda/tree/v1.6.1) | [`1385c9d`](https://github.com/mjun0812/setup-cuda/commit/1385c9d208aa47022281dd26b67c614f6885eba0) |
-| v1.7.0 | [`v1.7.0`](https://github.com/chainguard-actions/mjun0812-setup-cuda/tree/v1.7.0) | [`547cb8d`](https://github.com/mjun0812/setup-cuda/commit/547cb8dbfd301e3d1d75e35a35750aefac3dbe33) |
+| Version | Tag | Upstream commit | Hardening report |
+|---------|-----|-----------------|------------------|
+| v1 | [`v1`](https://github.com/chainguard-actions/mjun0812-setup-cuda/tree/v1) | [`e4d1e9e`](https://github.com/mjun0812/setup-cuda/commit/e4d1e9e5c1d5170845a413aca7fac330ea5efe6e) | — |
+| v1.2.0 | [`v1.2.0`](https://github.com/chainguard-actions/mjun0812-setup-cuda/tree/v1.2.0) | [`614b359`](https://github.com/mjun0812/setup-cuda/commit/614b359605ed0403cbdf6cd8ef1b4294fa4db3e5) | [`HARDENING.md`](https://github.com/chainguard-actions/mjun0812-setup-cuda/blob/v1.2.0/HARDENING.md) |
+| v1.3.0 | [`v1.3.0`](https://github.com/chainguard-actions/mjun0812-setup-cuda/tree/v1.3.0) | [`4e0ed7b`](https://github.com/mjun0812/setup-cuda/commit/4e0ed7b1849f5b734c0d4dbb220ca38816d12f1c) | [`HARDENING.md`](https://github.com/chainguard-actions/mjun0812-setup-cuda/blob/v1.3.0/HARDENING.md) |
+| v1.3.1 | [`v1.3.1`](https://github.com/chainguard-actions/mjun0812-setup-cuda/tree/v1.3.1) | [`43e81e2`](https://github.com/mjun0812/setup-cuda/commit/43e81e213205b8d584fb2cd755919a4f98d843f1) | [`HARDENING.md`](https://github.com/chainguard-actions/mjun0812-setup-cuda/blob/v1.3.1/HARDENING.md) |
+| v1.5.0 | [`v1.5.0`](https://github.com/chainguard-actions/mjun0812-setup-cuda/tree/v1.5.0) | [`bcecc09`](https://github.com/mjun0812/setup-cuda/commit/bcecc0913dc6c77755efaad3231a9bb5d72bf62e) | [`HARDENING.md`](https://github.com/chainguard-actions/mjun0812-setup-cuda/blob/v1.5.0/HARDENING.md) |
+| v1.6.0 | [`v1.6.0`](https://github.com/chainguard-actions/mjun0812-setup-cuda/tree/v1.6.0) | [`e4d1e9e`](https://github.com/mjun0812/setup-cuda/commit/e4d1e9e5c1d5170845a413aca7fac330ea5efe6e) | [`HARDENING.md`](https://github.com/chainguard-actions/mjun0812-setup-cuda/blob/v1.6.0/HARDENING.md) |
+| v1.6.1 | [`v1.6.1`](https://github.com/chainguard-actions/mjun0812-setup-cuda/tree/v1.6.1) | [`1385c9d`](https://github.com/mjun0812/setup-cuda/commit/1385c9d208aa47022281dd26b67c614f6885eba0) | [`HARDENING.md`](https://github.com/chainguard-actions/mjun0812-setup-cuda/blob/v1.6.1/HARDENING.md) |
+| v1.7.0 | [`v1.7.0`](https://github.com/chainguard-actions/mjun0812-setup-cuda/tree/v1.7.0) | [`547cb8d`](https://github.com/mjun0812/setup-cuda/commit/547cb8dbfd301e3d1d75e35a35750aefac3dbe33) | [`HARDENING.md`](https://github.com/chainguard-actions/mjun0812-setup-cuda/blob/v1.7.0/HARDENING.md) |
 
 ## Privacy
 
